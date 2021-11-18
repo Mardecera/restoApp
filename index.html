@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>RestoApp Login</title>
+        <link rel="shortcut icon" href="./favicon.png" type="image/x-icon" />
+        <link rel="stylesheet" href="./styles/sing.css" />
+        <script src="./scripts/index.js" type="module" defer></script>
+    </head>
+    <body>
+        <main>
+            <div id="card">
+                <div id="card__image">
+                    <figure>
+                        <img src="./images/1x/_card__image.png" alt="" />
+                    </figure>
+                </div>
+                <div id="card__content">
+                    <div id="card__title">Inicia Sesion</div>
+                    <div id="card__body">
+                        <form action="" id="singin">
+                            <div class="field">
+                                <label for="email">Email</label>
+                                <input
+                                    type="email"
+                                    name=""
+                                    id="email"
+                                    placeholder="Your email"
+                                    required
+                                />
+                            </div>
+                            <div class="field">
+                                <label for="password">Pasword</label>
+                                <input
+                                    type="password"
+                                    name=""
+                                    id="password"
+                                    placeholder="Your password"
+                                    required
+                                />
+                                <span><i class="fas fa-eye"></i></span>
+                            </div>
+                            <div class="field">
+                                <button class="btn btn__full btn__singin">
+                                    Login
+                                </button>
+                            </div>
+                        </form>
+                        <div id="others__methods">
+                            <div>o inicia sesion con:</div>
+                            <button class="btn btn__full btn__google">
+                                Google
+                            </button>
+                            <button class="btn btn__full btn__facebook">
+                                Facebook
+                            </button>
+                        </div>
+                    </div>
+                    <div id="card__footer">
+                        <div>No tienes cuenta?</div>
+                        <button class="btn btn__full btn__singup">
+                            Registrate
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <template id="template__card__singin">
+            <div id="card">
+                <div id="card__image">
+                    <figure>
+                        <img src="./images/1x/_card__image.png" alt="" />
+                    </figure>
+                </div>
+                <div id="card__content">
+                    <div id="card__title">Inicia Sesion</div>
+                    <div id="card__body">
+                        <form action="" id="singin">
+                            <div class="field">
+                                <label for="email">Email</label>
+                                <input
+                                    type="email"
+                                    name=""
+                                    id="email"
+                                    placeholder="Your email"
+                                    required
+                                />
+                            </div>
+                            <div class="field">
+                                <label for="password">Pasword</label>
+                                <input
+                                    type="password"
+                                    name=""
+                                    id="password"
+                                    placeholder="Your password"
+                                    pattern="[A-Za-z]{3}"
+                                    required
+                                />
+                                <span><i class="fas fa-eye"></i></span>
+                            </div>
+                            <div class="field">
+                                <button class="btn btn__full btn__singin">
+                                    Login
+                                </button>
+                            </div>
+                        </form>
+                        <div id="others__methods">
+                            <div>o inicia sesion con:</div>
+                            <button class="btn btn__full btn__google">
+                                Google
+                            </button>
+                            <button class="btn btn__full btn__facebook">
+                                Facebook
+                            </button>
+                        </div>
+                    </div>
+                    <div id="card__footer">
+                        <div>No tienes cuenta?</div>
+                        <button class="btn btn__full btn__singup">
+                            Registrate
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </template>
+    </body>
+</html>

@@ -1,0 +1,26 @@
+#section__content #product__picture {
+    text-align: center;
+}
+
+#section__content #product__picture figure {
+    display: inline-flex;
+    width: 3rem;
+    height: 3rem;
+}
+
+#section__content #product__picture figure img {
+    width: 100%;
+    object-fit: cover;
+    border-radius: 0.3rem;
+}
+
+#section__content #product__actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+}
+
+#section__content #product__name::first-letter {
+    text-transform: uppercase;
+}

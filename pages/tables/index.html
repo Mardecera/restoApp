@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>RestoApp | Tables</title>
+        <script defer>
+            const $ = (query) => document.querySelector(query)
+            const $$ = (element, query) => element.querySelector(query)
+        </script>
+        <link
+            rel="shortcut icon"
+            href="../../favicon.png"
+            type="image/x-icon"
+        />
+        <link rel="stylesheet" href="../../styles/general.css" />
+        <link rel="stylesheet" href="../../styles/tables.css" />
+        <link rel="stylesheet" href="../../styles/popalert.css" />
+        <link rel="stylesheet" href="../../styles/popup.css" />
+        <link
+            rel="stylesheet"
+            href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+            integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
+            crossorigin="anonymous"
+        />
+        <script src="../../scripts/actions.js" type="module" defer></script>
+        <script
+            src="../../scripts/modules/Tables/index.js"
+            type="module"
+            defer
+        ></script>
+    </head>
+    <body>
+        <main>
+            <section id="section__menu" class="disabled">
+                <div id="menu__logo">
+                    <figure>
+                        <img src="../../images/logo.png" alt="logotipo" />
+                    </figure>
+                </div>
+                <div id="menu__tabs">
+                    <ul>
+                        <li>
+                            <a href="../tables/" class="tab active">
+                                <i class="fas fa-dice-d6"></i>
+                                <span>Tables</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="../orders/" class="tab">
+                                <i class="fas fa-sort-amount-up-alt"></i>
+                                <span>Orders</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="../products/" class="tab">
+                                <i class="fas fa-database"></i>
+                                <span>Products</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div id="menu__user"></div>
+            </section>
+            <section id="section__content">
+                <nav id="nav">
+                    <ul>
+                        <li>
+                            <button id="btn__menu" class="btn pushup">
+                                <i class="fas fa-bars"></i>
+                            </button>
+                        </li>
+                    </ul>
+                </nav>
+                <div id="content__controls">
+                    <button id="newitem" class="btn btn__green pushup">
+                        <i class="fas fa-plus"></i> New Table
+                    </button>
+                </div>
+                <div id="content__info">
+                    <div id="info__void" class="hidde">
+                        <figure>
+                            <img
+                                src="../../images/_defaultSquare.png"
+                                alt="Image to say any order."
+                            />
+                        </figure>
+                    </div>
+                    <div id="info__show">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>#</th>
+                                    <th>Accciones</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+            <section class="section__auth"></section>
+            <div id="newitem__form" class="hidde popup">
+                <div id="popup__wrapper">
+                    <div class="popup__header">Add new Table</div>
+                    <div class="popup__body">
+                        <form action="">
+                            <div class="form__field">
+                                <label for="">Name</label>
+                                <input
+                                    id="table__name"
+                                    type="text"
+                                    value="table"
+                                    disabled
+                                />
+                            </div>
+                            <div class="form__field">
+                                <label for="">Number</label>
+                                <input
+                                    id="table__number"
+                                    type="number"
+                                    value="1"
+                                    min="1"
+                                    focused
+                                />
+                            </div>
+                            <div class="form__field">
+                                <button
+                                    id="popup__accept"
+                                    type="submit"
+                                    class="btn pushup"
+                                >
+                                    Acceppt
+                                </button>
+                                <button id="popup__cancel" class="btn pushup">
+                                    Cancel
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="popup_footer"></div>
+                </div>
+            </div>
+        </main>
+        <template id="template__table">
+            <tr id="" data-id="">
+                <td id="table__name"></td>
+                <td id="table__number"></td>
+                <td id="table__actions">
+                    <button
+                        id="item__edit"
+                        class="btn btn__green btn__square pushup"
+                    >
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button
+                        id="item__delete"
+                        class="btn btn__red btn__square pushup"
+                    >
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+        </template>
+        <template id="template__newtable">
+            <div id="newtable__popup">
+                <div id="popup__wrapper">
+                    <div class="popup__header">Add new Table</div>
+                    <div class="popup__body">
+                        <form action="">
+                            <div class="form__field">
+                                <label for="">Name</label>
+                                <input
+                                    id="table__name"
+                                    type="text"
+                                    value="table"
+                                    disabled
+                                />
+                            </div>
+                            <div class="form__field">
+                                <label for="">Number</label>
+                                <input
+                                    id="table__number"
+                                    type="number"
+                                    value="1"
+                                    min="1"
+                                    focused
+                                />
+                            </div>
+                            <div class="form__field">
+                                <button
+                                    id="popup__accept"
+                                    type="submit"
+                                    class="btn"
+                                >
+                                    Acceppt
+                                </button>
+                                <button id="popup__cancel" class="btn">
+                                    Cancel
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="popup_footer"></div>
+                </div>
+            </div>
+        </template>
+        <template id="template__singin">
+            <div id="singin__data">
+                <div id="data__profile">
+                    <figure>
+                        <img src="" alt="profile" />
+                    </figure>
+                </div>
+                <div id="data__fullname"></div>
+                <div id="data__username"></div>
+                <button id="logout" class="btn100">LogOut</button>
+            </div>
+        </template>
+        <template id="template__session">
+            <div id="popup">
+                <div class="popup__container">
+                    <div class="popup__header">
+                        <div></div>
+                        <button id="cancel" class="btn btn__square">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="popup__body">
+                        <form action="">
+                            <div class="field">
+                                <label for="email">E-mail</label>
+                                <input
+                                    type="email"
+                                    placeholder="email"
+                                    id="email"
+                                    required
+                                />
+                            </div>
+                            <div class="field">
+                                <label for="password">Password</label>
+                                <div class="input__div">
+                                    <input
+                                        type="password"
+                                        placeholder="password"
+                                        id="password"
+                                        required
+                                    />
+                                    <button id="watch__password">
+                                        <i class="far fa-eye-slash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <button
+                                    id="action"
+                                    class="btn100 btn__green"
+                                    type="submit"
+                                ></button>
+                                <!-- <button id="cancel" class="btn100 btn__red">
+                                    Cancel
+                                </button> -->
+                            </div>
+                        </form>
+                        <div>
+                            <a href="#" id="forgot__password"
+                                >Olvidaste tu contarseña?</a
+                            >
+                        </div>
+                    </div>
+                    <div class="popup__footer"></div>
+                </div>
+            </div>
+        </template>
+        <template id="template__alert">
+            <div id="popup__alert" class="pushup">
+                <div class="alert__icon">
+                    <snap><i class=""></i></snap>
+                </div>
+                <div class="alert__body"></div>
+                <div class="alert__action">
+                    <button><i class="fas fa-times pushup"></i></button>
+                </div>
+            </div>
+        </template>
+    </body>
+</html>

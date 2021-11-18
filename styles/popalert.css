@@ -1,0 +1,83 @@
+#popup__alert {
+    background-color: rgb(33, 44, 78);
+    position: absolute;
+    top: 1em;
+    right: 1em;
+    color: white;
+    width: max-content;
+    max-width: min(90vw, 700px);
+    display: flex;
+    border-radius: 0.3em;
+    box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.342);
+    opacity: 0.9;
+    animation: appear 0.5s ease-in-out;
+}
+
+@keyframes appear {
+    from {
+        right: -100%;
+    }
+    to {
+        right: 1em;
+    }
+}
+
+#popup__alert.desappear {
+    animation: desappear 0.5s ease-in-out;
+    right: -100%;
+}
+
+@keyframes desappear {
+    from {
+        right: 1em;
+    }
+    to {
+        right: -100%;
+    }
+}
+
+#popup__alert:hover {
+    outline: 2px solid rgb(163, 185, 255);
+    /* box-shadow: 0px 0px 1px 1px rgb(122, 147, 223); */
+    opacity: 1;
+}
+
+#popup__alert .alert__icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1em 0.5em 1em 1em;
+    pointer-events: none;
+}
+
+#popup__alert .alert__icon span {
+    display: block;
+    width: 2rem;
+    height: 2rem;
+}
+
+#popup__alert .alert__body {
+    padding: 1em;
+    pointer-events: none;
+}
+
+#popup__alert .alert__action {
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    padding: 0.5em;
+}
+
+#popup__alert .alert__action:hover {
+    background-color: rgba(255, 255, 255, 0.062);
+}
+
+#popup__alert .alert__action button {
+    width: 2rem;
+    height: 2rem;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    color: white;
+    cursor: pointer;
+}

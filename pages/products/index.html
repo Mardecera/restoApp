@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>RestoApp | Products</title>
+        <script defer>
+            const $ = (query) => document.querySelector(query)
+            const $$ = (element, query) => element.querySelector(query)
+        </script>
+        <link
+            rel="shortcut icon"
+            href="../../favicon.png"
+            type="image/x-icon"
+        />
+        <link rel="stylesheet" href="../../styles/general.css" />
+        <link rel="stylesheet" href="../../styles/products.css" />
+        <link rel="stylesheet" href="../../styles/popalert.css" />
+        <link rel="stylesheet" href="../../styles/popup.css" />
+        <link
+            rel="stylesheet"
+            href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+            integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
+            crossorigin="anonymous"
+        />
+        <script src="../../scripts/actions.js" type="module" defer></script>
+        <!-- <script src="../../scripts/app.js" type="module" defer></script> -->
+        <script
+            src="../../scripts/modules/Products/index.js"
+            type="module"
+            defer
+        ></script>
+    </head>
+    <body>
+        <main>
+            <section id="section__menu" class="disabled">
+                <div id="menu__logo">
+                    <figure>
+                        <img src="../../images/logo.png" alt="logotipo" />
+                    </figure>
+                </div>
+                <div id="menu__tabs">
+                    <ul>
+                        <li>
+                            <a href="../tables/" class="tab">
+                                <i class="fas fa-dice-d6"></i>
+                                <span>Mesas</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="../orders/" class="tab">
+                                <i class="fas fa-sort-amount-up-alt"></i>
+                                <span>Pedidos</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="tab active">
+                                <i class="fas fa-database"></i>
+                                <span>Productos</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div id="menu__user"></div>
+            </section>
+            <section id="section__content">
+                <nav id="nav">
+                    <ul>
+                        <li>
+                            <button id="btn__menu" class="btn">
+                                <i class="fas fa-bars"></i>
+                            </button>
+                        </li>
+                    </ul>
+                </nav>
+                <div id="content__controls">
+                    <button id="newitem" class="btn btn__green pushup">
+                        <i class="fas fa-plus"></i> New Product
+                    </button>
+                </div>
+                <div id="content__info">
+                    <div id="info__void" class="hidde">
+                        <figure>
+                            <img
+                                src="../../images/_defaultSquare.png"
+                                alt="Image to say any order."
+                            />
+                        </figure>
+                    </div>
+                    <div id="info__show">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Picture</th>
+                                    <th>Name</th>
+                                    <th>Price</th>
+                                    <th>Currency</th>
+                                    <th>Accciones</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+            <section class="section__auth"></section>
+        </main>
+        <div id="newitem__form" class="popup hidde">
+            <div id="popup__wrapper">
+                <div class="popup__header">Add new Product</div>
+                <div class="popup__body">
+                    <form action="" id="new__product">
+                        <div class="form__field">
+                            <input
+                                type="file"
+                                name=""
+                                id="product__picture"
+                                accept="image/*"
+                                value="Selected image"
+                                required
+                            />
+                        </div>
+                        <div class="form__field">
+                            <label for="">Name</label>
+                            <input
+                                id="product__name"
+                                type="text"
+                                value=""
+                                placeholder="Name of product"
+                                required
+                                autofocus
+                            />
+                        </div>
+                        <div class="form__field">
+                            <label for="">Price</label>
+                            <input
+                                id="product__price"
+                                type="number"
+                                value="1"
+                                step="0.01"
+                                placeholder="Price of product"
+                                required
+                                min="1"
+                            />
+                        </div>
+                        <div class="form__field">
+                            <label for="">Currency</label>
+                            <select name="" id="product__currency" required>
+                                <option value="" selected disabled>
+                                    Select a currency
+                                </option>
+                            </select>
+                        </div>
+                        <div class="form__field">
+                            <button
+                                id="popup__accept"
+                                type="submit"
+                                class="btn btn__green"
+                            >
+                                Create
+                            </button>
+                            <button id="popup__cancel" class="btn">
+                                Cancel
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div class="popup_footer"></div>
+            </div>
+        </div>
+        <div id="deleteproduct__popup" class="popup hidde">
+            <div id="popup__wrapper">
+                <div class="popup__body">Desea eliminar este producto?</div>
+                <div class="popup__footer">
+                    <button class="btn">Accept</button>
+                    <button class="btn">Cancel</button>
+                </div>
+            </div>
+        </div>
+        <template id="template__product">
+            <tr id="" data-id="">
+                <td id="product__picture">
+                    <figure>
+                        <img src="" alt="xxx" />
+                    </figure>
+                </td>
+                <td id="product__name"></td>
+                <td id="product__price"></td>
+                <td id="product__currency"></td>
+                <td id="product__actions">
+                    <button
+                        id="product__edit"
+                        class="btn btn__green btn__square"
+                    >
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button
+                        id="product__delete"
+                        class="btn btn__red btn__square"
+                    >
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+        </template>
+        <template id="template__singin">
+            <div id="singin__data">
+                <div id="data__profile">
+                    <figure>
+                        <img src="" alt="profile" />
+                    </figure>
+                </div>
+                <div id="data__fullname"></div>
+                <div id="data__username"></div>
+                <button id="logout" class="btn100">LogOut</button>
+            </div>
+        </template>
+        <template id="template__alert">
+            <div id="popup__alert">
+                <div class="alert__icon">
+                    <snap><i class=""></i></snap>
+                </div>
+                <div class="alert__body"></div>
+                <div class="alert__action">
+                    <button><i class="fas fa-times"></i></button>
+                </div>
+            </div>
+        </template>
+    </body>
+</html>

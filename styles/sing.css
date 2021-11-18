@@ -1,0 +1,135 @@
+img {
+    width: 400px;
+}
+
+@font-face {
+    font-family: 'Barlow';
+    src: url('../fonts/Barlow-Light.ttf');
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Barlow';
+    /* outline: 1px solid red; */
+}
+
+html,
+body {
+    height: 100%;
+}
+
+main {
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+#card {
+    width: 90%;
+    max-width: max-content;
+    display: flex;
+    box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.2);
+    border-radius: 0.5em;
+    margin: 0 auto;
+}
+
+#card #card__image {
+    max-width: 500px;
+    padding-left: 2em;
+}
+
+#card #card__image figure {
+    height: 100%;
+}
+
+#card #card__image figure img {
+    height: 100%;
+    object-fit: contain;
+}
+
+#card #card__content {
+    /* box-shadow: 2px 2px 20px black; */
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5em;
+    min-width: max-content;
+}
+
+#card #card__content #card__title {
+    font-weight: 700;
+    /* text-align: center; */
+    text-transform: uppercase;
+}
+
+#card #card__body {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5em;
+}
+
+#card #card__body form {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+#card #card__body #others__methods {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    align-items: center;
+}
+
+#card #card__body form .field input {
+    width: 100%;
+    padding: 1em;
+    border-radius: 0.3em;
+    border: 1px solid black;
+    outline: none;
+}
+#card #card__body form .field a {
+    text-decoration: underline;
+}
+
+#card #card__content #card__footer {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+}
+
+.btn {
+    border: none;
+    outline: none;
+    padding: 0.6em 1em;
+    cursor: pointer;
+    border-radius: 0.3em;
+}
+
+.btn:hover {
+    background-color: rgb(218, 218, 218);
+}
+
+.btn__full {
+    width: 100%;
+}
+
+.btn__facebook {
+    background-color: #3b5998;
+    color: white;
+}
+
+.btn__facebook:hover {
+    background-color: #2a4580;
+}
+
+.btn__google {
+    background-color: #db4437;
+    color: white;
+}
+
+.btn__google:hover {
+    background-color: #cc3b2d;
+}
