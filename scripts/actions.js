@@ -1,4 +1,5 @@
 import deleteDocument from './firebase/database/delete.js'
+import deleteAllFiles from './firebase/storage/delete-all.js'
 import logOutUser from './firebase/auth/logout.js'
 import getDocument from './firebase/database/get.js'
 import getFile from './firebase/storage/get.js'
@@ -64,6 +65,26 @@ function openPopup(popupId) {
     $(`#${popupId}`).classList.toggle('hidde')
 }
 
+function openConfirmation(collectionName, id, data) {
+    const template = $('#template__confirmation').content
+    const clone = template.cloneNode(true)
+    const body = $('body')
+    const directoryPath = `${collectionName}/${id}/`
+
+    $$(clone, '#btn__accept').onclick = async () => {
+        await deleteDocument(collectionName, id)
+        await deleteAllFiles(directoryPath)
+        $('#popup__confirmation').remove()
+        document.querySelector(`tr#${id}`).remove()
+        data.size--
+    }
+    $$(clone, '#btn__cancel').onclick = () => {
+        $('#popup__confirmation').remove()
+    }
+
+    body.appendChild(clone)
+}
+
 async function showDataUser(elementId, uid) {
     clearElement(elementId)
     const userData = await getDocument('users', uid)
@@ -126,83 +147,117 @@ function loadDataInSelect(data, selectId) {
     })
 }
 
+function updateSingleDataInTable(data) {
+    const tRow = $(`#${data.id}`)
+    const { number } = data.data()
+    $$(tRow, '#table__number').textContent = number
+}
+
+function setDataTable(doc, templateRowID, collectionName) {
+    const templateRow = $(`#${templateRowID}`).content
+    const cloneRow = templateRow.cloneNode(true)
+    const { name, number } = doc.data()
+
+    $$(cloneRow, 'tr').setAttribute('id', doc.id)
+    $$(cloneRow, '#table__name').textContent = name
+    $$(cloneRow, '#table__number').textContent = number
+    $$(cloneRow, '#table__number').setAttribute('data-sort', number)
+    $$(cloneRow, '#item__edit').onclick = (event) => {
+        event.preventDefault()
+        const newNumber = $('#newitem__form #table__number').textContent
+        openPopup('newitem__form')
+        $('#newitem__form #table__number').value = newNumber
+        $('#newitem__form form').setAttribute('edit-id', doc.id)
+    }
+    $$(cloneRow, '#item__delete').onclick = async (event) => {
+        event.preventDefault()
+        openConfirmation(collectionName, doc.id)
+    }
+    return cloneRow
+}
+
+async function setDataProduct(doc, templateRowID, collectionName) {
+    const templateRow = $(`#${templateRowID}`).content
+    const cloneRow = templateRow.cloneNode(true)
+    const { name, picture, price, currency } = doc.data()
+    const pictureURL = await getFile(picture)
+    const currencyDoc = await getDocument('currencies', currency.id)
+    const { nameSymbol } = currencyDoc.data()
+
+    $$(cloneRow, 'tr').setAttribute('id', doc.id)
+    $$(cloneRow, '#product__picture img').src = pictureURL
+    $$(cloneRow, '#product__name').textContent = name
+    $$(cloneRow, '#product__price').textContent = parseFloat(price).toFixed(2)
+    $$(cloneRow, '#product__price').setAttribute('data-sort', price)
+    $$(cloneRow, '#product__price').setAttribute('data-id', price)
+    $$(cloneRow, '#product__currency').textContent = nameSymbol
+    $$(cloneRow, '#product__currency').setAttribute('data-id', currency.id)
+    $$(cloneRow, '#product__edit').onclick = (event) => {
+        event.preventDefault()
+        const row = $(`tbody #${doc.id}`)
+        const name = $$(row, '#product__name').textContent
+        const price = $$(row, '#product__price').getAttribute('data-id')
+        const currency = $$(row, '#product__currency').getAttribute('data-id')
+
+        openPopup('newitem__form')
+        $('#newitem__form #product__picture').required = false
+        $('#newitem__form .popup__header').textContent = 'Edit Product'
+        $('#newitem__form #product__name').value = name
+        $('#newitem__form #product__price').value = price
+        $('#newitem__form #product__currency').value = currency
+        $('#newitem__form form').setAttribute('edit-id', doc.id)
+        $('#newitem__form #popup__accept').textContent = 'Update'
+    }
+    // $$(cloneRow, '#item__checkbox').onclick = (event) => {
+    //     console.log(event.target.checked)
+    //     const table = event.target.parentNode.parentNode.parentNode.parentNode
+    //     console.log(table)
+    //     if (event.target.checked) {
+    //         // $$(table, '.th__checkbox input').setAttribute('type-check', 'mixed')
+    //     } else {
+    //         // $$(table, '.th__checkbox input').setAttribute('type-check', 'mixed')
+    //     }
+    // }
+
+    return cloneRow
+}
+
+async function loadSingleDataInTable(
+    doc,
+    tableID,
+    templateRowID,
+    collectionName
+) {
+    const tBody = $(`#${tableID} tbody`)
+
+    if (collectionName === 'tables') {
+        const clone = setDataTable(doc, templateRowID, collectionName)
+        tBody.appendChild(clone)
+    } else if (collectionName === 'products') {
+        const clone = await setDataProduct(doc, templateRowID, collectionName)
+        tBody.appendChild(clone)
+    }
+}
+
 function loadDataInTable(documents, collectionName, tableId, templateRowId) {
     clearElement(`${tableId} tbody`)
     const tBody = $(`#${tableId} tbody`)
-    const templateRow = $(`#${templateRowId}`).content
     const fragment = new DocumentFragment()
 
     if (collectionName === 'tables') {
         documents.forEach((doc) => {
-            const cloneRow = templateRow.cloneNode(true)
-            const { name, number } = doc.data()
-
-            $$(cloneRow, 'tr').setAttribute('id', doc.id)
-            $$(cloneRow, '#table__name').textContent = name
-            $$(cloneRow, '#table__number').textContent = number
-            $$(cloneRow, '#item__edit').onclick = (event) => {
-                event.preventDefault()
-                const row = $(`tbody #${doc.id}`)
-                const number = $$(row, '#table__number').textContent
-
-                openPopup('newitem__form')
-                $('#newitem__form #table__number').value = number
-                $('#newitem__form form').setAttribute('edit-id', doc.id)
-            }
-            $$(cloneRow, '#item__delete').onclick = async (event) => {
-                event.preventDefault()
-                await deleteDocument(collectionName, doc.id)
-                $(`tbody #${doc.id}`).remove()
-            }
-            fragment.appendChild(cloneRow)
+            const clone = setDataTable(doc, templateRowId, collectionName)
+            fragment.appendChild(clone)
         })
         tBody.appendChild(fragment)
     } else if (collectionName === 'products') {
         documents.forEach(async (doc) => {
-            const cloneRow = templateRow.cloneNode(true)
-            const { name, picture, price, currency } = doc.data()
-            const pictureUrl = await getFile(picture)
-            const currencyDoc = await getDocument('currencies', currency.id)
-            const { symbol, nameSymbol } = currencyDoc.data()
-
-            $$(cloneRow, 'tr').setAttribute('id', doc.id)
-            $$(cloneRow, '#product__picture img').src = pictureUrl
-            $$(cloneRow, '#product__name').textContent = name
-            $$(
-                cloneRow,
-                '#product__price'
-            ).textContent = `${symbol}${parseFloat(price).toFixed(2)}`
-            $$(cloneRow, '#product__price').setAttribute('data-id', price)
-            $$(cloneRow, '#product__currency').textContent = nameSymbol
-            $$(cloneRow, '#product__currency').setAttribute(
-                'data-id',
-                currency.id
+            const clone = await setDataProduct(
+                doc,
+                templateRowId,
+                collectionName
             )
-            $$(cloneRow, '#product__edit').onclick = (event) => {
-                event.preventDefault()
-                const row = $(`tbody #${doc.id}`)
-                const name = $$(row, '#product__name').textContent
-                const price = $$(row, '#product__price').getAttribute('data-id')
-                const currency = $$(row, '#product__currency').getAttribute(
-                    'data-id'
-                )
-
-                openPopup('newitem__form')
-                $('#newitem__form #product__picture').required = false
-                $('#newitem__form .popup__header').textContent = 'Edit Product'
-                $('#newitem__form #product__name').value = name
-                $('#newitem__form #product__price').value = price
-                $('#newitem__form #product__currency').value = currency
-                $('#newitem__form form').setAttribute('edit-id', doc.id)
-                $('#newitem__form #popup__accept').textContent = 'Update'
-            }
-            $$(cloneRow, '#product__delete').onclick = async (event) => {
-                event.preventDefault()
-                await deleteDocument(collectionName, doc.id)
-                await deleteFile(picture)
-                $(`tbody #${doc.id}`).remove()
-            }
-            fragment.appendChild(cloneRow)
+            fragment.appendChild(clone)
             tBody.appendChild(fragment)
         })
     }
@@ -219,4 +274,7 @@ export {
     deleteVoidValues,
     mapToObject,
     getDataProductToForm,
+    loadSingleDataInTable,
+    updateSingleDataInTable,
+    openConfirmation,
 }

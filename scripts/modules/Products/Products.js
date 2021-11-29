@@ -1,7 +1,9 @@
 import getDocuments from '../../firebase/database/get-all.js'
 import updateDocument from '../../firebase/database/update.js'
 import setDocument from '../../firebase/database/set.js'
+import getDocument from '../../firebase/database/get.js'
 import setFile from '../../firebase/storage/set.js'
+import deleteAllFiles from '../../firebase/storage/delete-all.js'
 import {
     hiddenElement,
     showElement,
@@ -9,38 +11,75 @@ import {
     closePopup,
     resetForm,
     loadDataInSelect,
+    loadSingleDataInTable,
+    openConfirmation,
 } from '../../actions.js'
 
 class Products {
     constructor(uid) {
         this.uid = uid
-        this.showProducts()
+        this.data = {
+            mainCheck: 0,
+            size: 0,
+        }
+        this.table = new Tablesort(document.getElementById('table__products'), {
+            // sortAttribute: 'data-custom-sort-val',
+        })
     }
 
     async showProducts() {
-        const { isNotVoid, data } = await getDocuments('products')
-        if (isNotVoid) {
-            hiddenElement('info__void')
-            showElement('info__show')
-            loadDataInTable(data, 'products', 'info__show', 'template__product')
-            this.showCurrencies()
+        try {
+            const { size, data } = await getDocuments('products')
+            if (!!size) {
+                hiddenElement('info__void')
+                showElement('info__show')
+                loadDataInTable(
+                    data,
+                    'products',
+                    'info__show',
+                    'template__product'
+                )
+                this.data.size = size
+                this.showCurrencies()
+            }
+            this.table.refresh()
+            return new Promise((resolve) => {
+                resolve(true)
+            })
+        } catch (error) {
+            return new Promise((resolve) => {
+                resolve(false)
+            })
         }
     }
 
     async createProduct(data, editId) {
         if (!!editId) {
             const onsuccess = await this.updateProduct(data, editId)
-            if (onsuccess) this.showNewProduct()
+            if (onsuccess) {
+                const doc = await getDocument('products', editId)
+                this.showTableOnDOM(doc)
+            }
         } else {
-            const onsuccess = await this.setProduct(data)
-            if (onsuccess) this.showNewProduct()
+            const { id } = await this.setProduct(data)
+            if (id) {
+                const doc = await getDocument('products', id)
+                this.showTableOnDOM(doc)
+                this.data.size++
+            }
         }
+        this.table.refresh()
     }
 
-    showNewProduct() {
+    showTableOnDOM(doc) {
         closePopup('newitem__form')
         resetForm('newitem__form form')
-        this.showProducts()
+        loadSingleDataInTable(
+            doc,
+            'table__products',
+            'template__product',
+            'products'
+        )
     }
 
     async setProduct(data) {
@@ -57,10 +96,10 @@ class Products {
                 'products',
                 productSnap.id
             )
-            return true
+            return productSnap
         } catch (error) {
             console.log(error)
-            return false
+            return null
         }
     }
 
@@ -80,10 +119,37 @@ class Products {
         }
     }
 
+    deleteProduct(id) {
+        openConfirmation('products', id, this.data)
+    }
+
     async showCurrencies() {
         const { data } = await getDocuments('currencies')
         loadDataInSelect(data, 'product__currency')
     }
+
+    revieMainCheck() {
+        const mainCheck = $('#table__products #main__check')
+        if (this.data.mainCheck > 0 && this.data.mainCheck < this.data.size) {
+            mainCheck.setAttribute('type-checked', 'mixed')
+        } else if (this.data.mainCheck === this.data.size) {
+            mainCheck.setAttribute('type-checked', 'true')
+        } else if (this.data.mainCheck === 0) {
+            mainCheck.setAttribute('type-checked', 'false')
+        }
+    }
+
+    reviewButtonDelete() {
+        if (this.data.mainCheck > 0) showDeleteButton()
+        else hideDeleteButton()
+    }
+
+    reviewButtonEdit() {
+        if (this.data.mainCheck === 1) showEditButton()
+        else hideEditButton()
+    }
+
+    eventCheck() {}
 }
 
 export default Products

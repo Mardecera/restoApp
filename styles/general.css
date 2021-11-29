@@ -264,6 +264,12 @@ nav li {
     opacity: 0.3;
 }
 
+#section__content table tbody tr:hover {
+    background-color: rgb(238, 238, 238);
+    cursor: pointer;
+    /* box-shadow: 0px 2px 1px 1px rgb(165, 165, 165); */
+}
+
 #section__content table td {
     text-align: center;
 }
@@ -272,6 +278,14 @@ nav li {
 #section__content table td {
     padding: 0.5em;
 }
+
+/* #section__content #product__picture,
+#section__content #product__name,
+#section__content #product__price,
+#section__content #product__currency,
+#section__content #product__actions {
+    pointer-events: none;
+} */
 
 .btn100 {
     /* display: flex; */
@@ -629,4 +643,149 @@ i {
     to {
         transform: scale(0.95);
     }
+}
+/* 
+.th-order {
+    position: relative;
+}
+
+.th-order:hover {
+    cursor: pointer;
+}
+
+.th-order::after {
+    content: '▲';
+    width: 1rem;
+    height: 1rem;
+    position: absolute;
+    right: 1em;
+    top: 1em;
+    opacity: 0.3;
+}
+
+.th-order:hover::after {
+    opacity: 1;
+} */
+
+th.th__checkbox[role='columnheader']:not(.no-sort) {
+    /* width: 100px; */
+    /* max-width: 1rem; */
+    cursor: default;
+}
+
+th.th__checkbox input {
+    cursor: pointer;
+    border-radius: 0.3em;
+    border: none;
+    display: none;
+    /* outline: 2px solid black; */
+}
+
+th.th__checkbox .checkmark {
+    width: 1rem;
+    height: 1rem;
+    display: block;
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 0.3em;
+    margin: 0 auto;
+}
+
+th.th__checkbox .checkmark:hover {
+    border: 1px solid rgb(23, 123, 255);
+}
+
+.icon::before {
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    line-height: 1;
+}
+
+th.th__checkbox input[type-checked='mixed'] ~ .checkmark {
+    border: none;
+    position: relative;
+    background-color: rgb(23, 123, 255);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+th.th__checkbox input[type-checked='mixed'] ~ .checkmark:after {
+    /* font-family: 'Font Awesome 5 Pro';
+    font-weight: 900;
+    content: '\f2d1'; */
+    content: '';
+    position: absolute;
+    width: 60%;
+    height: 3px;
+    background-color: white;
+    border-radius: 0.3em;
+}
+
+th.th__checkbox input[type-checked='true'] ~ .checkmark {
+    border: none;
+    position: relative;
+    background-color: rgb(23, 123, 255);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+th.th__checkbox input[type-checked='true'] ~ .checkmark::before {
+    font-family: 'Font Awesome 5 Pro';
+    font-weight: 900;
+    content: '\f00c';
+    position: absolute;
+    font-size: 0.7rem;
+    color: white;
+}
+
+th.th__checkbox input[type-checked='false'] ~ #checkmark {
+    outline: none;
+}
+
+th.th__checkbox input[type='checkbox'] {
+    background-color: red;
+}
+
+th.th__checkbox[role='columnheader']:not(.no-sort):after {
+    content: none;
+}
+
+th[role='columnheader']:not(.no-sort) {
+    cursor: pointer;
+}
+
+th[role='columnheader']:not(.no-sort):after {
+    content: '';
+    float: right;
+    margin-top: 7px;
+    border-width: 0 4px 4px;
+    border-style: solid;
+    border-color: #404040 transparent;
+    visibility: hidden;
+    opacity: 0;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+}
+
+th[aria-sort='ascending']:not(.no-sort):after {
+    border-bottom: none;
+    border-width: 4px 4px 0;
+}
+
+th[aria-sort]:not(.no-sort):after {
+    visibility: visible;
+    opacity: 0.4;
+}
+
+th[role='columnheader']:not(.no-sort):hover:after {
+    visibility: visible;
+    opacity: 1;
 }

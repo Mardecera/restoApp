@@ -10,7 +10,7 @@ async function getDocuments(collectionName) {
         const collectionRef = collection(db, collectionName)
         const querySnap = await getDocs(collectionRef)
         return {
-            isNotVoid: !!querySnap.size,
+            size: querySnap.size,
             data: querySnap,
         }
     } catch (error) {

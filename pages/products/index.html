@@ -7,6 +7,7 @@
         <title>RestoApp | Products</title>
         <script defer>
             const $ = (query) => document.querySelector(query)
+            const $all = (query) => document.querySelectorAll(query)
             const $$ = (element, query) => element.querySelector(query)
         </script>
         <link
@@ -24,6 +25,27 @@
             integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
             crossorigin="anonymous"
         />
+        <script src="../../scripts/tablesort.js" type="module" defer></script>
+        <script
+            src="../../scripts/sorts/tablesort.date.js"
+            type="module"
+            defer
+        ></script>
+        <script
+            src="../../scripts/sorts/tablesort.dotsep.js"
+            type="module"
+            defer
+        ></script>
+        <script
+            src="../../scripts/sorts/tablesort.filesize.js"
+            type="module"
+            defer
+        ></script>
+        <script
+            src="../../scripts/sorts/tablesort.number.js"
+            type="module"
+            defer
+        ></script>
         <script src="../../scripts/actions.js" type="module" defer></script>
         <!-- <script src="../../scripts/app.js" type="module" defer></script> -->
         <script
@@ -89,14 +111,39 @@
                         </figure>
                     </div>
                     <div id="info__show">
-                        <table>
+                        <table id="table__products">
                             <thead>
                                 <tr>
-                                    <th>Picture</th>
+                                    <th
+                                        data-sort-method="none"
+                                        class="th__checkbox"
+                                    >
+                                        <label
+                                            for="main__check"
+                                            id="label__check"
+                                        >
+                                            <input
+                                                type="checkbox"
+                                                name=""
+                                                id="main__check"
+                                                type-checked="false"
+                                            />
+                                            <span
+                                                class="icon checkmark"
+                                                id="main__checkmark"
+                                            ></span>
+                                        </label>
+                                    </th>
+                                    <th data-sort-method="none">Picture</th>
                                     <th>Name</th>
-                                    <th>Price</th>
+                                    <th
+                                        data-sort-default
+                                        data-sort-method="number"
+                                    >
+                                        Price
+                                    </th>
                                     <th>Currency</th>
-                                    <th>Accciones</th>
+                                    <th data-sort-method="none">Accciones</th>
                                 </tr>
                             </thead>
                             <tbody></tbody>
@@ -180,6 +227,7 @@
         </div>
         <template id="template__product">
             <tr id="" data-id="">
+                <td><input type="checkbox" name="" id="item__checkbox" /></td>
                 <td id="product__picture">
                     <figure>
                         <img src="" alt="xxx" />
@@ -224,6 +272,23 @@
                 <div class="alert__body"></div>
                 <div class="alert__action">
                     <button><i class="fas fa-times"></i></button>
+                </div>
+            </div>
+        </template>
+        <template id="template__confirmation">
+            <div id="popup__confirmation" class="popup">
+                <div id="popup__wrapper">
+                    <div class="popup__body">
+                        <p>Desea eliminar este elemento?</p>
+                    </div>
+                    <div class="popup__footer">
+                        <button id="btn__accept" class="btn pushup">
+                            Accept
+                        </button>
+                        <button id="btn__cancel" class="btn pushup">
+                            Cancel
+                        </button>
+                    </div>
                 </div>
             </div>
         </template>

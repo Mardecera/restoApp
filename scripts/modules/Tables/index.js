@@ -12,6 +12,10 @@ onAuthStateChanged(auth, (user) => {
     if (user) {
         const uid = user.uid
         const tables = new Tables(uid)
+        // const table = new Tablesort($('#table__tables'), {
+        //     sortAttribute: 'data-custom-sort-val',
+        //     descending: true,
+        // })
 
         showDataUser('menu__user', uid)
         $('#newitem__form form').addEventListener('submit', (event) => {

@@ -24,6 +24,12 @@
             integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
             crossorigin="anonymous"
         />
+        <script src="../../scripts/tablesort.js" type="module" defer></script>
+        <script
+            src="../../scripts/sorts/tablesort.number.js"
+            type="module"
+            defer
+        ></script>
         <script src="../../scripts/actions.js" type="module" defer></script>
         <script
             src="../../scripts/modules/Tables/index.js"
@@ -88,12 +94,14 @@
                         </figure>
                     </div>
                     <div id="info__show">
-                        <table>
+                        <table id="table__tables">
                             <thead>
                                 <tr>
-                                    <th>Name</th>
-                                    <th>#</th>
-                                    <th>Accciones</th>
+                                    <th data-sort-method="none">Name</th>
+                                    <th data-sort-default class="th-order">
+                                        #
+                                    </th>
+                                    <th data-sort-method="none">Accciones</th>
                                 </tr>
                             </thead>
                             <tbody></tbody>
@@ -282,6 +290,23 @@
                 <div class="alert__body"></div>
                 <div class="alert__action">
                     <button><i class="fas fa-times pushup"></i></button>
+                </div>
+            </div>
+        </template>
+        <template id="template__confirmation">
+            <div id="popup__confirmation" class="popup">
+                <div id="popup__wrapper">
+                    <div class="popup__body">
+                        <p>Desea eliminar este elemento?</p>
+                    </div>
+                    <div class="popup__footer">
+                        <button id="btn__accept" class="btn pushup">
+                            Accept
+                        </button>
+                        <button id="btn__cancel" class="btn pushup">
+                            Cancel
+                        </button>
+                    </div>
                 </div>
             </div>
         </template>

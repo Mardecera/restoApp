@@ -2,17 +2,24 @@ import {
     showElement,
     hiddenElement,
     loadDataInTable,
+    loadSingleDataInTable,
+    updateSingleDataInTable,
     resetForm,
     closePopup,
 } from '../../actions.js'
-import getDocuments from '../../firebase/get-documents.js'
-import setDocuments from '../../firebase/set-documents.js'
-import updateDocument from '../../firebase/update-document.js'
+import getDocuments from '../../firebase/database/get-all.js'
+import setDocument from '../../firebase/database/set.js'
+import updateDocument from '../../firebase/database/update.js'
+import getDocument from '../../firebase/database/get.js'
 
 class Tables {
     constructor(uid) {
         this.uid = uid
         this.showTables()
+        this.table = new Tablesort($('#table__tables'), {
+            sortAttribute: 'data-custom-sort-val',
+            // descending: true,
+        })
     }
 
     // leer tablas
@@ -24,23 +31,33 @@ class Tables {
             showElement('info__show')
             loadDataInTable(data, 'tables', 'info__show', 'template__table')
         }
+        this.table.refresh()
     }
 
     // crear item tabla
     async createTable(data, editId) {
         if (!!editId) {
             const onsuccess = await updateDocument(data, 'tables', editId)
-            if (onsuccess) this.showTablesBefore()
+            const newData = await getDocument('tables', editId)
+            if (onsuccess) this.updateTableOnDom(newData)
         } else {
-            const onsuccess = await setDocuments(data, 'tables')
-            if (onsuccess) this.showTablesBefore()
+            const { id } = await setDocument(data, 'tables')
+            const newData = await getDocument('tables', id)
+            if (newData) this.showTableOnDOM(newData)
         }
+        this.table.refresh()
     }
 
-    showTablesBefore() {
+    showTableOnDOM(data) {
         closePopup('newitem__form')
         resetForm('newitem__form form')
-        this.showTables()
+        loadSingleDataInTable(data, 'info__show', 'template__table', 'tables')
+    }
+
+    updateTableOnDom(data) {
+        closePopup('newitem__form')
+        resetForm('newitem__form form')
+        updateSingleDataInTable(data)
     }
     // actualizar item tabla
     // eliminar item tabla
